@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 import os
+import subprocess
 import argparse
 
 dirPath='/etc/'
@@ -72,7 +73,8 @@ def set_disable_daemon(daemons):
 					dirPath + dc + '/' + nameDaemon, 
 					dirPath + dc + '/K' + nameDaemon[1:]
 				)
-		os.system('update-rc.d {} defaults 2> /dev/null'.format(nameDaemon[3:]))
+		cmd = 'update-rc.d {} defaults 2> /dev/null'.format(nameDaemon[3:])
+		subprocess.call(cmd, shell=True)
 		print('* {} [disabled]'.format(nameDaemon[3:]))
 
 
@@ -99,7 +101,8 @@ def set_enable_daemon(daemons):
 					dirPath+dc+'/'+nameDaemon, 
 					dirPath+dc+'/S'+nameDaemon[1:]
 				)
-		os.system('update-rc.d {} defaults 2> /dev/null'.format(nameDaemon[3:]))
+		cmd = 'update-rc.d {} defaults 2> /dev/null'.format(nameDaemon[3:])
+		subprocess.call(cmd, shell=True)
 		print('* {} [enabled]'.format(nameDaemon[3:]))
 
 
@@ -112,11 +115,12 @@ def display_daemon(listDaemon):
  
 
 def change_now(listDaemon, action):
-	from subprocess import Popen, PIPE
-
 	for d in listDaemon:
-		cmd=Popen(['service', d, action], stdout=PIPE, stderr=PIPE)
-		stdout, stderr=cmd.communicate()
+		cmd = subprocess.Popen(['service', d, action],
+			stdout = subprocess.PIPE, 
+			stderr = subprocess.PIPE
+		)
+		stdout, stderr = cmd.communicate()
 
 		if stderr:
 			print(stderr)
