@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import argparse
 
@@ -18,13 +19,11 @@ listDirConfig=[
 
 
 def get_enable_daemon():
-	'''
-	Obtenir la liste des daemons actifs.
-	'''
+	"""Obtenir la liste des daemons actifs."""
 	global dirPath
 	global listDirConfig
 	activeDaemon = []
-	
+
 	for d in listDirConfig:
 		for ad in os.listdir(dirPath+d):
 			if ad[0] == 'S' and not ad in activeDaemon:
@@ -34,9 +33,7 @@ def get_enable_daemon():
 
 
 def get_disable_daemon():
-	'''
-	Obtenir la liste des daemons actifs.
-	'''
+	"""Obtenir la liste des daemons actifs."""
 	global dirPath
 	global listDirConfig
 	activeDaemon = [x[3:] for x in get_enable_daemon()]
@@ -52,9 +49,7 @@ def get_disable_daemon():
 
 	
 def set_disable_daemon(daemons):
-	'''
-	Désactiver les daemons passés en argument.
-	'''
+	"""Désactiver les daemons passés en argument."""
 	global listDirConfig
 	global dirPath
 	enableDaemon=get_enable_daemon()
@@ -82,9 +77,7 @@ def set_disable_daemon(daemons):
 
 
 def set_enable_daemon(daemons):
-	'''
-	Activer les daemons passés en argument.
-	'''
+	"""Activer les daemons passés en argument."""
 	global listDirConfig
 	global dirPath
 	disableDaemon=get_disable_daemon()
@@ -111,9 +104,7 @@ def set_enable_daemon(daemons):
 
 
 def display_daemon(listDaemon):
-	'''
-	Afficher proprement la liste de daemons actifs.
-	'''
+	"""Afficher proprement la liste de daemons actifs."""
 	print()
 
 	for d in sorted([x[3:] for x in listDaemon]):
@@ -132,9 +123,7 @@ def change_now(listDaemon, action):
 
 
 def have_right():
-	'''
-	Savoir si le script est lancé avec les bons droits.
-	'''
+	"""Savoir si le script est lancé avec les bons droits."""
 	global listDirConfig
 	global dirPath
 	access = True
